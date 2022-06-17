@@ -14,6 +14,11 @@ class Categoy(models.Model):
 class Contact(models.Model):
     name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(
+        upload_to="pictures/%Y/%m/",
+        blank=True,
+        null=True
+    )
     phone = PhoneNumberField(region="BR")
     email = models.EmailField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
