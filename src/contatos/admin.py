@@ -4,6 +4,7 @@ from .models import Categoy, Contact
 
 class ContactAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "name",
         "last_name",
         "phone",
