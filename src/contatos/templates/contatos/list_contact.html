@@ -3,6 +3,15 @@
 {% block content %}
   <div class="d-flex flex-column">
     <h1 class="mt-5">{{ contact.get_full_name }}</h1>
+    <div>
+      <img
+        src="{{ contact.image.url }}"
+        alt="{{ contact.get_full_name }}"
+        class="img-fluid"
+        width="200"
+        height="200"
+        >
+    </div>
     <dl>
       <dt>ID</dt>
       <dd>{{ contact.id }}</dd>
