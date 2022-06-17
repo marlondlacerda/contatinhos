@@ -5,6 +5,8 @@ from faker import Faker
 from random import randint
 from dotenv import dotenv_values
 from pathlib import Path
+import urllib.request
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 fake = Faker("pt_BR")
@@ -50,19 +52,41 @@ def populate_category():
                 con.commit()
 
 
-def populate_contacs():
+def populate_contacts():
     sql = """
-        INSERT INTO contatos_contact (name, last_name, phone, email,
+        INSERT INTO contatos_contact (name, last_name, image, phone, email,
         created_at, description, category_id, `show`)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
     """
 
-    for i in range(200):
+    for i in range(100):
+        fake_name = fake.name()
+        imgURL = fake.image_url(width=250, height=250)
+        ano_atual = datetime.now().year
+        mes_atual = datetime.now().month
+        path = f"{BASE_DIR}/src/media/pictures/{ano_atual}/{mes_atual}"
+        path_img = f"{path}/{fake_name}.jpg"
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        while True:
+            try:
+                urllib.request.urlretrieve(
+                    imgURL,
+                    path_img,
+                )
+                break
+            except Exception as e:
+                print(e)
+                imgURL = fake.image_url(width=250, height=250)
+
         with conecta() as con:
             with con.cursor() as cursor:
                 cursor.execute(sql, (
-                    fake.name(),
+                    fake_name,
                     fake.last_name(),
+                    f"/pictures/{ano_atual}/{mes_atual}/{fake_name}.jpg",
                     fake.phone_number(),
                     fake.email(),
                     f'{datetime.now()}',
@@ -76,5 +100,5 @@ def populate_contacs():
 if __name__ == '__main__':
     populate_category()
     print('Categoria populada')
-    populate_contacs()
+    populate_contacts()
     print('Contatos inseridos com sucesso')
