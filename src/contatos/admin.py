@@ -10,9 +10,12 @@ class ContactAdmin(admin.ModelAdmin):
         "email",
         "category",
         "created_at",
+        "show",
     )
 
     list_display_links = ("name", "last_name")
+
+    list_editable = ("show", "phone", "category", "email")
 
     list_per_page: int = 10
 
