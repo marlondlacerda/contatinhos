@@ -5,3 +5,4 @@ flake8==4.0.1
 pytest==7.0.1
 pytest-json==0.4.0
 click==8.0.0
+Faker==13.13.0
