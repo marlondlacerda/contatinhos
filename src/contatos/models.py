@@ -23,3 +23,18 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_full_name(self):
+        return f"{self.name} {self.get_last_name()}"
+
+    def get_last_name(self):
+        if self.last_name:
+            return self.last_name
+        else:
+            return ""
+
+    def get_email(self):
+        if self.email:
+            return self.email
+        else:
+            return "Não informado"
