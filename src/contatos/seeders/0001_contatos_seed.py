@@ -3,18 +3,22 @@ from contextlib import contextmanager
 from datetime import datetime
 from faker import Faker
 from random import randint
+from dotenv import dotenv_values
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 fake = Faker("pt_BR")
+dotenv = dotenv_values(str(BASE_DIR / ".env"))
 
 
 @contextmanager
 def conecta():
     conection = pymysql.connect(
-        host='localhost',
-        user='root',
-        password='123456',
-        port=3002,
-        db='agenda',
+        host=dotenv["DB_HOST"],
+        user=dotenv["DB_USER"],
+        password=dotenv["DB_PASS"],
+        port=int(dotenv["DB_PORT"]),
+        db=dotenv["DB_NAME"],
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
     )
@@ -22,11 +26,31 @@ def conecta():
     try:
         yield conection
     finally:
-        print('Fechando conexão')
+        print('Dados inseridos com sucesso!')
+        print('Fechando conexão...')
         conection.close()
 
 
-def populate_db():
+def populate_category():
+    categorys = [
+                    "Amigos",
+                    "Trabalho",
+                    "Familia",
+                    "Outros",
+                    "Conhecidos",
+                    "Amigos da internet",
+                    "Faculdade"
+                ]
+    sql = "INSERT INTO contatos_categoy (name, created_at) VALUES (%s, %s)"
+
+    with conecta() as con:
+        with con.cursor() as cursor:
+            for category in categorys:
+                cursor.execute(sql, (category, f'{datetime.now()}'))
+                con.commit()
+
+
+def populate_contacs():
     sql = """
         INSERT INTO contatos_contact (name, last_name, phone, email,
         created_at, description, category_id, `show`)
@@ -43,11 +67,14 @@ def populate_db():
                     fake.email(),
                     f'{datetime.now()}',
                     fake.text(),
-                    randint(1, 5),
+                    randint(1, 7),
                     1
                 ))
                 con.commit()
 
 
 if __name__ == '__main__':
-    populate_db()
+    populate_category()
+    print('Categoria populada')
+    populate_contacs()
+    print('Contatos inseridos com sucesso')
