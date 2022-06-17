@@ -19,6 +19,7 @@ class Contact(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Categoy, on_delete=models.CASCADE)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
