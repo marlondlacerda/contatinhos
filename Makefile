@@ -4,6 +4,8 @@ i-dev:
 install:
 	pip install -r requirements.txt
 
+superuser:
+	bash -c "cd src && python manage.py createsuperuser"
 
 makemigration:
 	bash -c "cd src && python manage.py makemigrations"
