@@ -43,3 +43,9 @@ class Contact(models.Model):
             return self.email
         else:
             return "Não informado"
+
+    def get_image(self):
+        if self.image:
+            return self.image.url
+        else:
+            return '/media/pictures/default_image.png'
