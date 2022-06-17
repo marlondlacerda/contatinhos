@@ -1,27 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <!-- // contact.name and last_name on same line -->
-  <h1 class="mt-5">{{ contact.name }} {{ contact.last_name }}</h1>
-  <dl>
-    <dt>ID</dt>
-    <dd>{{ contact.id }}</dd>
-
-    <dt>Telefone</dt>
-    <dd>{{ contact.phone }}</dd>
-
-    <dt>E-mail</dt>
-    <dd>{{ contact.email }}</dd>
-
-    <dt>Data criação</dt>
-    <dd>{{ contact.created_at|date:'d/m/Y' }}</dd>
-
-    <dt>Categoria</dt>
-    <dd>{{ contact.category }}</dd>
-
-    <dt>Descrição</dt>
-    <dd>
-      {{ contact.description }}
-    </dd>
-  </dl>
-{% endblock %}
+  <div class="d-flex flex-column">
+    <h1 class="mt-5">{{ contact.get_full_name }}</h1>
+    <dl>
+      <dt>ID</dt>
+      <dd>{{ contact.id }}</dd>
+      
+      <dt>Telefone</dt>
+      <dd>{{ contact.phone }}</dd>
+      
+      <dt>E-mail</dt>
+      <dd>{{ contact.get_email }}</dd>
+      
+      <dt>Data criação</dt>
+      <dd>{{ contact.created_at|date:'d/m/Y' }}</dd>
+      
+      <dt>Categoria</dt>
+      <dd>{{ contact.category }}</dd>
+      
+      <dt>Descrição</dt>
+      <dd>
+        {{ contact.description }}
+      </dd>
+    </dl>
+  </div>
+    {% endblock %}
