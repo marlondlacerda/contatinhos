@@ -44,6 +44,8 @@ class Connection:
 
         try:
             yield connection
+        except Exception as e:
+            print(e)
         finally:
             print("Data entered successfully!")
             print("Closing Connection...")
