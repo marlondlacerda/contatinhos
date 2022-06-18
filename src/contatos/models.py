@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -49,3 +50,11 @@ class Contact(models.Model):
             return self.image.url
         else:
             return '/media/pictures/default_image.png'
+
+
+class Contacts_User(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user_id.username
