@@ -57,4 +57,4 @@ class Contacts_User(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user_id.username
+        return f"{self.user.username} - {self.contact.name}"

@@ -16,9 +16,9 @@
     <tbody>
       {% for contact in contacts %}
         <tr>
-          <td>{{ contact.id }}</td>
+          <td>{{ contact.new_id }}</td>
           <td>
-            <a href="{% url 'list_contact' contact.id %}">
+            <a href="{% url 'list_contact' contact.new_id %}">
               {{ contact.name }}
             </a>
           </td>

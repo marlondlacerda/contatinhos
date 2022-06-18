@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categoy, Contact
+from .models import Categoy, Contact, Contacts_User
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -25,3 +25,4 @@ class ContactAdmin(admin.ModelAdmin):
 
 admin.site.register(Categoy)
 admin.site.register(Contact, ContactAdmin)
+admin.site.register(Contacts_User)
