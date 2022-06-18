@@ -70,7 +70,6 @@ class Seeder(Connection):
             self._populate_category()
 
         self._populate_contacts(count)
-        self._populate_contacts_user(count)
 
     def _check_superuser(self):
         sql = "SELECT * FROM auth_user WHERE id = 1"
@@ -158,21 +157,24 @@ class Seeder(Connection):
                     print(
                         f"Contact: {contact._fake_name} created successfully!"
                     )
+                    self._populate_contacts_user(cursor, connection)
 
-    def _populate_contacts_user(self, count):
-        sql = """
+    @staticmethod
+    def _populate_contacts_user(cursor, connection):
+        verify_sql = "SELECT * FROM contatos_contact"
+        insert_sql = """
             INSERT INTO contatos_contacts_user (contact_id, user_id)
             VALUES (%s, %s);
         """
 
-        with self._get_connection() as connection:
-            with connection.cursor() as cursor:
-                for i in range(count):
-                    cursor.execute(sql, (i + 1, 1))
-                    connection.commit()
-                    print(
-                        f"contact_user with id: {i + 1} created successfully!"
-                    )
+        contact_id = int(cursor.execute(verify_sql))
+
+        cursor.execute(insert_sql, (contact_id, 2))
+        connection.commit()
+        print(
+            f"Model ContactsUser with contact_id: {contact_id} and user_id: 1 "
+            "created successfully!"
+        )
 
 
 if __name__ == "__main__":
