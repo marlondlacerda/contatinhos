@@ -4,15 +4,17 @@ from django.http import Http404
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
 from django.contrib import messages
-from .models import Contacts_User, Contact
+from .models import Contact
 
 
 def index(request):
-    contacts_user = Contacts_User.objects.filter(user=request.user)
-
-    contacts = Contact.objects.filter(
-        show=True,
-        id__in=[contact.contact_id for contact in contacts_user]
+    contacts = Contact.objects.raw(
+        """SELECT *, ROW_NUMBER() OVER(ORDER BY id) as new_id
+        FROM agenda.contatos_contact
+        WHERE id IN (
+            SELECT contact_id FROM agenda.contatos_contacts_user
+            WHERE user_id = %s
+        )""", [request.user.id]
     )
 
     paginator = Paginator(contacts, 10)
@@ -20,7 +22,7 @@ def index(request):
     contacts = paginator.get_page(page)
 
     return render(request, "contatos/index.html", {
-        "contacts": contacts
+        "contacts": contacts,
     })
 
 
