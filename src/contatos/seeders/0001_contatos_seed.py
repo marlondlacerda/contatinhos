@@ -8,67 +8,84 @@ from pathlib import Path
 import urllib.request
 import os
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-fake = Faker("pt_BR")
-dotenv = dotenv_values(str(BASE_DIR / ".env"))
+
+class FakeData:
+    def __init__(self):
+        self.fake = Faker("pt_BR")
+        self._fake_name = self.fake.name()
+        self._fake_last_name = self.fake.last_name()
+        self._fake_phone = self.fake.phone_number()
+        self._fake_email = self.fake.email()
+        self._fake_date = datetime.now().strftime("%Y/%m")
+        self._imgURL = self.fake.image_url(width=300, height=300)
+        self._fake_img = f"/pictures/{self._fake_date}/{self._fake_name}.jpg"
+        self._fake_description = self.fake.text(max_nb_chars=200)
+        self._fake_category = randint(1, 8)
+        self._show = 1
 
 
-@contextmanager
-def conecta():
-    conection = pymysql.connect(
-        host=dotenv["DB_HOST"],
-        user=dotenv["DB_USER"],
-        password=dotenv["DB_PASS"],
-        port=int(dotenv["DB_PORT"]),
-        db=dotenv["DB_NAME"],
-        charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
-    )
+class Connection:
+    def __init__(self):
+        self._BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+        self.__dotenv_path = dotenv_values(str(self._BASE_DIR / ".env"))
+        self._connection = self._get_connection()
 
-    try:
-        yield conection
-    finally:
-        print('Dados inseridos com sucesso!')
-        print('Fechando conexão...')
-        conection.close()
+    @contextmanager
+    def _get_connection(self):
+        connection = pymysql.connect(
+            host=self.__dotenv_path["DB_HOST"],
+            port=int(self.__dotenv_path["DB_PORT"]),
+            user=self.__dotenv_path["DB_USER"],
+            password=self.__dotenv_path["DB_PASS"],
+            db=self.__dotenv_path["DB_NAME"],
+            charset="utf8mb4",
+            cursorclass=pymysql.cursors.DictCursor,
+        )
 
-
-def populate_category():
-    categorys = [
-                    "Amigos",
-                    "Trabalho",
-                    "Familia",
-                    "Outros",
-                    "Conhecidos",
-                    "Amigos da internet",
-                    "Faculdade"
-                ]
-    sql = "INSERT INTO contatos_categoy (name, created_at) VALUES (%s, %s)"
-
-    with conecta() as con:
-        with con.cursor() as cursor:
-            for category in categorys:
-                cursor.execute(sql, (category, f'{datetime.now()}'))
-                con.commit()
+        try:
+            yield connection
+        finally:
+            print("Data entered successfully!")
+            print("Closing Connection...")
+            print()
+            connection.close()
 
 
-def populate_contacts():
-    sql = """
-        INSERT INTO contatos_contact (name, last_name, image, phone, email,
-        created_at, description, category_id, `show`)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
-    """
+class Seeder(Connection):
+    def run(self, count, create_category=False):
+        if create_category:
+            self._populate_category()
 
-    for i in range(100):
-        fake_name = fake.name()
-        imgURL = fake.image_url(width=250, height=250)
-        ano_atual = datetime.now().year
-        mes_atual = datetime.now().month
-        path = f"{BASE_DIR}/src/media/pictures/{ano_atual}/{mes_atual}"
-        path_img = f"{path}/{fake_name}.jpg"
+        self._populate_contacts(count)
 
+    def _populate_category(self):
+        sql = "INSERT INTO contatos_categoy (name, created_at) VALUES (%s, %s)"
+        categories = [
+            "Amigos",
+            "Trabalho",
+            "Colegas",
+            "Família",
+            "Conhecidos",
+            "Amigos da Internet",
+            "Outros",
+            "Faculdade",
+        ]
+
+        with self._get_connection() as connection:
+            with connection.cursor() as cursor:
+                for category in categories:
+                    cursor.execute(sql, (category, datetime.now()))
+                    connection.commit()
+                    print(f"Category: {category} created successfully!")
+
+    @staticmethod
+    def _check_path(path):
         if not os.path.exists(path):
             os.makedirs(path)
+
+    @staticmethod
+    def _download_img(imgURL, path_img):
+        fake = Faker("pt_BR")
 
         while True:
             try:
@@ -77,28 +94,53 @@ def populate_contacts():
                     path_img,
                 )
                 break
-            except Exception as e:
-                print(e)
+            except Exception:
+                print("Error: Unable to download Image, trying again!")
                 imgURL = fake.image_url(width=250, height=250)
 
-        with conecta() as con:
-            with con.cursor() as cursor:
+    def _populate_contacts(self, count):
+        sql = """
+            INSERT INTO contatos_contact (name, last_name, image, phone, email,
+            created_at, description, category_id, `show`)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """
+
+        for i in range(count):
+            contact = FakeData()
+            path = f"{self._BASE_DIR}/src/media/pictures/{contact._fake_date}"
+            path_img = f"{path}/{contact._fake_name}.jpg"
+
+            self._check_path(path)
+            self._download_img(contact._imgURL, path_img)
+            self.insert_contact(sql, contact)
+
+    def insert_contact(self, sql, contact):
+        with self._get_connection() as connection:
+            with connection.cursor() as cursor:
                 cursor.execute(sql, (
-                    fake_name,
-                    fake.last_name(),
-                    f"/pictures/{ano_atual}/{mes_atual}/{fake_name}.jpg",
-                    fake.phone_number(),
-                    fake.email(),
-                    f'{datetime.now()}',
-                    fake.text(),
-                    randint(1, 7),
-                    1
+                    contact._fake_name,
+                    contact._fake_last_name,
+                    contact._fake_img,
+                    contact._fake_phone,
+                    contact._fake_email,
+                    datetime.now(),
+                    contact._fake_description,
+                    contact._fake_category,
+                    contact._show,
                 ))
-                con.commit()
+                connection.commit()
+                print(f"Contact: {contact._fake_name} created successfully!")
 
 
 if __name__ == '__main__':
-    populate_category()
-    print('Categoria populada')
-    populate_contacts()
-    print('Contatos inseridos com sucesso')
+    seed_category = Seeder()
+
+    quantidade = int(input("Quantidade de contatos a serem criados: "))
+    check_category = input("Deseja criar categorias? (S/N): ")
+
+    if check_category.upper() == "S":
+        seed_category.run(quantidade, create_category=True)
+    else:
+        seed_category.run(quantidade)
+
+    print("Seeding finished!")
