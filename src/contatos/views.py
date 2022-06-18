@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
+from django.contrib import messages
 from .models import Contact
 
 
@@ -31,9 +32,14 @@ def list_contact(request, contact_id):
 def search(request):
     term = request.GET.get('q')
     field = Concat('name', Value(' '), 'last_name')
-    print(term)
-    if term is None:
-        raise Http404("Search term is required")
+
+    if term is None or term == "":
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Por favor, digite um termo de busca"
+        )
+        return redirect("index")
 
     contacts = Contact.objects.annotate(full_name=field).filter(
         Q(full_name__icontains=term) |
