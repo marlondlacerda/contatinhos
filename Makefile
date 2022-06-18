@@ -7,7 +7,13 @@ install:
 superuser:
 	bash -c "cd src && python manage.py createsuperuser"
 
-makemigration:
+resetdb:
+	bash -c "cd src && python manage.py flush --noinput"
+
+lint:
+	flake8 src/
+
+migration:
 	bash -c "cd src && python manage.py makemigrations"
 
 migrate:
