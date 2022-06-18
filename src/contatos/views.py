@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
@@ -27,14 +27,23 @@ def index(request):
 
 
 def list_contact(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id)
+    contacts = Contact.objects.raw(
+        """SELECT *, ROW_NUMBER() OVER(ORDER BY id) as new_id
+        FROM agenda.contatos_contact
+        WHERE id IN (
+            SELECT contact_id FROM agenda.contatos_contacts_user
+            WHERE user_id = %s
+        )""", [request.user.id]
+    )
 
-    if not contact.show:
+    for contact in contacts:
+        print(contact.new_id)
+        if contact.new_id == contact_id:
+            return render(request, "contatos/list_contact.html", {
+                "contact": contact,
+            })
+    else:
         raise Http404("Contact not found")
-
-    return render(request, "contatos/list_contact.html", {
-        "contact": contact
-    })
 
 
 def search(request):
