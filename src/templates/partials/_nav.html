@@ -5,42 +5,54 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{% url 'index' %}">
-      <img src="/media/pictures/agenda.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-      Agenda
+    <a class="navbar-brand logo" href="{% url 'index' %}">
+      <img src="/media/pictures/agenda.png" alt="" width="40" height="auto" class="d-inline-block align-text-top">
+      Contatinhos
     </a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      </ul>
-      {% if 'dashboard' in request.path %}
-        <form class="d-flex"  method="get" action="{% url 'search' %}">
-          <input 
-          class="form-control me-2 mt-1" 
-          type="search"
-          placeholder="Pesquisar"
-          aria-label="Search"
-          id="search-input"
-          name="q"
-          >
-          
-          <button class="btn btn-outline-secondary mt-1" type="submit">Search</button>
-        </form>
-        
-        <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'logout' %}">
-          Sair
-        </a>
-        {% endif %}
+      <ul class="navbar-nav me-auto mb-2 ms-auto mb-lg-0">
+        {% if 'dashboard' in request.path %}
+          {% if request.resolver_match.url_name == 'list_contact' %}
+            <form class="d-flex"  method="get" action="{% url 'search' %}">
+              <input 
+              class="form-control me-2 mt-1" 
+              type="search"
+              placeholder="Pesquisar"
+              aria-label="Search"
+              id="search-input"
+              name="q"
+              >
+              
+              <button class="btn btn-outline-secondary mt-1" type="submit">Search</button>
+            </form>
+          </ul>
+          {% endif %}
+          </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <div class="nav-link">{{ user.first_name }} {{ user.last_name }}</div>
+              </li>
+            </ul>
+            <div class="vr d-none d-lg-flex mx-lg-3 text-white"></div>
+            <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'logout' %}">
+              Sair
+            </a>
+          {% endif %}
 
-        {% if 'login' in request.path %}
-          <a class="btn btn-outline-secondary ms-1" href="{% url 'register' %}">
-            Cadastrar
-          </a>
-        {% endif %}
 
-        {% if 'register' in request.path %}
-          <a class="btn btn-outline-secondary ms-1" href="{% url 'login' %}">
-            Login
-          </a>
+        {% if 'login' in request.path or 'register' in request.path %}
+        </ul>
+
+            <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'login' %}">
+              Login
+            </a>
+
+          <div class="vr d-none d-lg-flex mx-lg-3 text-white"></div>
+
+            <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'register' %}">
+              Cadastrar
+            </a>
+
         {% endif %}
     </div>
   </div>
