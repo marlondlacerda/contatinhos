@@ -1,4 +1,135 @@
-/* .row {
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Revalia&display=swap');
+
+.logo {
+  font-size: 2em !important;
+}
+
+.page-link {
+  color: rgb(33,37,41) !important;
+}
+
+.pagination>li.active>a {
+  background: rgb(33,37,41);
+  border-color: rgb(33,37,41);
+  color: #fff !important;
+}
+
+.content {
+  border: 3px solid rgb(33,37,41);
+  height: 877px;
+  width: 360px;
+}
+
+.my-contacts {
+  font-family: Nunito;
+  font-size: 24px;
+  font-weight: 600;
+  height: 33px;
+  letter-spacing: 0em;
+  line-height: 33px;
+  margin-left: 24px;
+  margin-top: 38px;
+  position: absolute;
+  text-align: left;
+  width: 136px;
+}
+
+.content-header {
+  color: black;
+  top: 0px;
+  width: 330px;
+  position: relative;
+  border: 1px solid white;
+  background-color:white;
+}
+
+.search-bar-container {
+  height: 40px;
+  margin-left: 15px;
+  margin-top: 93px;
+  position: absolute;
+  width: 353px;
+}
+
+.search-bar-input {
+  border-radius: 12px;
+  box-shadow: 0px 1px 12px 1px rgba(0, 0, 0, 0.25);
+  height: 40px;
+  padding: 10px 10px 10px 45px;
+  position: static;
+  width: 320px;
+}
+
+.search-bar-label > .icon {
+  height: 1.5em;
+  left: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icon path {
+  fill: #B7B7B7;
+}
+
+.contacts-container {
+  padding-left: 28px;
+  padding-top: 155px;
+}
+
+.contact-container {
+  display: flex;
   flex-direction: column;
-  align-items: center;
-} */
+  width: 300px;
+}
+
+.contact-info {
+  display: flex;
+}
+
+.contact-container a {
+  color: #000;
+  text-decoration: none !important;
+}
+
+.contact-image-container img {
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}
+
+.contact-info-container {
+  display: flex;
+}
+
+.contact-name {
+  font-family: 'Nunito';
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+}
+
+.contact-phone {
+  color: #B6B6B6;
+  font-family: 'Nunito';
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.contact-add {
+  position: fixed;
+  right: 720px;
+  bottom: 30px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+  .contact-add {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+  }
+}
