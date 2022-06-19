@@ -5,25 +5,28 @@ from django.core.validators import validate_email
 
 
 def login(request):
-    if request.method != "POST":
-        return render(request, "accounts/login.html")
+    if request.user.is_authenticated:
+        return redirect("index")
+    else:
+        if request.method != "POST":
+            return render(request, "accounts/login.html")
 
-    username = request.POST.get("username")
-    password = request.POST.get("password")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-    if not (username and password):
-        messages.error(request, "Por favor, preencha todos os campos.")
-        return render(request, "accounts/login.html")
+        if not (username and password):
+            messages.error(request, "Por favor, preencha todos os campos.")
+            return render(request, "accounts/login.html")
 
-    user = auth.authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
 
-    if not user:
-        messages.error(request, "Usuário ou senha incorretos.")
-        return render(request, "accounts/login.html")
+        if not user:
+            messages.error(request, "Usuário ou senha incorretos.")
+            return render(request, "accounts/login.html")
 
-    auth.login(request, user)
-    messages.success(request, "Bem Vindo!")
-    return redirect("index")
+        auth.login(request, user)
+        messages.success(request, "Bem Vindo!")
+        return redirect("index")
 
 
 def register(request):
