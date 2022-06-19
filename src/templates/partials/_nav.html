@@ -1,11 +1,44 @@
 {% load static %}
 <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <a class="navbar-brand" href="{% url 'index' %}">Agenda</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </ul>
+      {% if 'dashboard' in request.path %}
+        <form class="d-flex"  method="get" action="{% url 'search' %}">
+          <input 
+          class="form-control me-2" 
+          type="search"
+          placeholder="Pesquisar"
+          aria-label="Search"
+          id="search-input"
+          name="q"
+          >
+          
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+        
+        <a class="btn btn-outline-secondary ms-1" href="{% url 'logout' %}">
+          Sair
+        </a>
+        {% endif %}
+
+        {% if 'login' in request.path %}
+          <a class="btn btn-outline-secondary ms-1" href="{% url 'register' %}">
+            Cadastrar
+          </a>
+        {% endif %}
+
+        {% if 'register' in request.path %}
+          <a class="btn btn-outline-secondary ms-1" href="{% url 'login' %}">
+            Login
+          </a>
+        {% endif %}
     </div>
-  </nav>
+  </div>
+</nav>
