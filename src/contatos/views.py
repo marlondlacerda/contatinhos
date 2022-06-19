@@ -8,7 +8,7 @@ from .models import Contact
 
 def contact_query_by_user(id):
     return Contact.objects.raw(
-        """SELECT *, ROW_NUMBER() OVER(ORDER BY id) as new_id
+        """SELECT *, ROW_NUMBER() OVER(ORDER BY name) as new_id
         FROM agenda.contatos_contact
         WHERE id IN (
             SELECT contact_id FROM agenda.contatos_contacts_user
@@ -21,7 +21,7 @@ def contact_query_by_user(id):
 def index(request):
     contacts = contact_query_by_user(request.user.id)
 
-    paginator = Paginator(contacts, 10)
+    paginator = Paginator(contacts, 8)
     page = request.GET.get('page')
     contacts = paginator.get_page(page)
 
@@ -34,7 +34,6 @@ def list_contact(request, contact_id):
     contacts = contact_query_by_user(request.user.id)
 
     for contact in contacts:
-        print(contact.new_id)
         if contact.new_id == contact_id:
             return render(request, "contatos/list_contact.html", {
                 "contact": contact,
@@ -64,7 +63,7 @@ def search(request):
                 or term.casefold() in contact.email.casefold()
                 ]
 
-    paginator = Paginator(contacts, 10)
+    paginator = Paginator(contacts, 8)
     page = request.GET.get('page')
     contacts = paginator.get_page(page)
 
