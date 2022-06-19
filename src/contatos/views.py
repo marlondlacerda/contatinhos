@@ -57,8 +57,12 @@ def search(request):
     contacts = contact_query_by_user(request.user.id)
 
     contacts = [contact for contact in contacts
-                if term in contact.name or term in contact.last_name
-                or term in contact.email]
+                if term.casefold() in contact.name.casefold()
+                or term.casefold() in contact.last_name.casefold()
+                or term.casefold()
+                in f"{contact.name} {contact.last_name}".casefold()
+                or term.casefold() in contact.email.casefold()
+                ]
 
     paginator = Paginator(contacts, 10)
     page = request.GET.get('page')
