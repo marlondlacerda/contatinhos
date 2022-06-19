@@ -5,14 +5,17 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <a class="navbar-brand" href="{% url 'index' %}">
+      <img src="/media/pictures/agenda.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Agenda
+    </a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="{% url 'index' %}">Agenda</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       </ul>
       {% if 'dashboard' in request.path %}
         <form class="d-flex"  method="get" action="{% url 'search' %}">
           <input 
-          class="form-control me-2" 
+          class="form-control me-2 mt-1" 
           type="search"
           placeholder="Pesquisar"
           aria-label="Search"
@@ -20,10 +23,10 @@
           name="q"
           >
           
-          <button class="btn btn-outline-secondary" type="submit">Search</button>
+          <button class="btn btn-outline-secondary mt-1" type="submit">Search</button>
         </form>
         
-        <a class="btn btn-outline-secondary ms-1" href="{% url 'logout' %}">
+        <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'logout' %}">
           Sair
         </a>
         {% endif %}
