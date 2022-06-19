@@ -79,4 +79,6 @@ def register(request):
 
 
 def logout(request):
-    return render(request, "accounts/logout.html")
+    auth.logout(request)
+    messages.success(request, "Você saiu com sucesso!")
+    return redirect("index")
