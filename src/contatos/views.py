@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Contact
+from .models import Contact, Contacts_User
+from .form import ContactForm
 
 
 def contact_query_by_user(id):
@@ -72,3 +73,25 @@ def search(request):
     return render(request, "contatos/search.html", {
         "contacts": contacts
     })
+
+
+@login_required(redirect_field_name=None)
+def new_contact(request):
+    if request.method != "POST":
+        form = ContactForm()
+        return render(request, "contatos/new_contact.html", {'form': form})
+    print(request.POST)
+    form = ContactForm(request.POST, request.FILES)
+
+    if not form.is_valid():
+        form = ContactForm()
+        return render(request, "contatos/new_contact.html", {'form': form})
+
+    form.save()
+
+    Contacts_User.objects.create(
+        user=request.user,
+        contact=Contact.objects.get(id=form.instance.id)
+    )
+
+    return redirect("index")
