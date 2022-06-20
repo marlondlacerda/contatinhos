@@ -40,8 +40,14 @@ def register(request):
     password = request.POST.get("password")
     re_password = request.POST.get("re_password")
 
-    if not (first_name and last_name and username and email
-            and password and re_password):
+    if not (
+        first_name
+        and last_name
+        and username
+        and email
+        and password
+        and re_password
+    ):
         messages.error(request, "Por favor, preencha todos os campos.")
         return render(request, "accounts/register.html")
 

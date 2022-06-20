@@ -30,6 +30,7 @@ def index(request):
     })
 
 
+@login_required(redirect_field_name=None)
 def list_contact(request, contact_id):
     contacts = contact_query_by_user(request.user.id)
 
@@ -42,6 +43,7 @@ def list_contact(request, contact_id):
         raise Http404("Contact not found")
 
 
+@login_required(redirect_field_name=None)
 def search(request):
     term = request.GET.get('q')
 

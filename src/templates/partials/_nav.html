@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <ul class="navbar-nav me-auto mb-2 ms-auto mb-lg-0">
         {% if 'dashboard' in request.path %}
-          {% if request.resolver_match.url_name == 'list_contact' %}
+          {% if 'contacts' in request.path %}
             <form class="d-flex"  method="get" action="{% url 'search' %}">
               <input 
               class="form-control me-2 mt-1" 
@@ -40,7 +40,7 @@
           {% endif %}
 
 
-        {% if 'login' in request.path or 'register' in request.path %}
+        {% if 'login' in request.path or 'register' in request.path or 'index_login' in request.resolver_match.view_name %}
         </ul>
 
             <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'login' %}">
