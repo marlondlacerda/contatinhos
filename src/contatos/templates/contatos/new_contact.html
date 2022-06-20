@@ -15,12 +15,12 @@
 
       <div class="container-form">
         <div>
-          <form action="{% url 'new_contact' %}" method="POST" enctype="multipart/form-data">
+            <form action="{{ request.path }}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-floating mb-3">
               <input
                 type="text"
-                value="{{ request.POST.name }}"
+                value={% if 'new' in request.path %}''{% else %}{{ form.name.value }}{% endif %}
                 class="form-control"
                 id="name"
                 name="name"
@@ -32,7 +32,7 @@
             <div class="form-floating mb-3">
               <input
                 type="text"
-                value="{{ request.POST.last_name }}"
+                value={% if 'new' in request.path %}''{% else %}{{ form.last_name.value }}{% endif %}
                 class="form-control"
                 id="last_name"
                 name="last_name"
@@ -43,7 +43,7 @@
             <div class="form-floating mb-3">
               <input
                 type="file"
-                value="{{ request.POST.image }}"
+                value={% if 'new' in request.path %}''{% else %}{{ form.image.value }}{% endif %}
                 class="form-control"
                 id="image"
                 name="image"
@@ -54,7 +54,7 @@
             <div class="form-floating mb-3">
               <input
                 type="text"
-                value="{{ request.POST.phone }}"
+                value="{% if 'new' in request.path %}{% else %}{{ form.phone.value }}{% endif %}""
                 class="form-control"
                 id="phone"
                 name="phone"
@@ -66,7 +66,7 @@
             <div class="form-floating mb-3">
               <input
                 type="text"
-                value="{{ request.POST.email }}"
+                value={% if 'new' in request.path %}''{% else %}{{ form.email.value }}{% endif %}
                 class="form-control"
                 id="email"
                 name="email"
@@ -77,16 +77,15 @@
             <div class="form-floating mb-3">
               <textarea
                 type="text"
-                value="{{ request.POST.description }}"
-                class="form-control"
+                class="form-control text-area-form"
                 id="description"
                 name="description"
                 placeholder="Descrição"
                 cols="40"
                 rows="10"
                 maxlength="200"
-                ></textarea>
-              <label for="description" class="floatingInput">Descrição</label>
+                >{% if 'new' in request.path %}{% else %}{{ form.description.value }}{% endif %}</textarea>
+              <label for="description" class="floatingTextarea">Descrição</label>
             </div>
             <div class="form-floating mb-3">
               <select
@@ -99,7 +98,7 @@
                   {{ category}}
                 {% endfor %}
                 </select>
-                <label for="category" class="floatingInput">Categoria</label>
+                <label for="category" class="floatingSelect">Categoria</label>
               </div>
             </div>
             <div class="d-grid gap-2 mb-2">

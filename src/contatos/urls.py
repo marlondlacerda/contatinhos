@@ -10,4 +10,9 @@ urlpatterns = [
         name="contact_details",
         ),
     path("contacts/new/", views.new_contact, name="new_contact"),
+    path(
+        "contacts/<int:contact_id>/edit/",
+        views.edit_contact,
+        name="new_contact",
+        ),
 ]

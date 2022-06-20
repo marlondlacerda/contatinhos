@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,14 @@ def contact_query_by_user(id):
             WHERE user_id = %s
         )""", [id]
     )
+
+
+def get_contact_with_new_id(new_id, contacts):
+    for contact in contacts:
+        if contact.new_id == new_id:
+            return contact
+    else:
+        return None
 
 
 @login_required(redirect_field_name=None)
@@ -35,13 +43,14 @@ def index(request):
 def list_contact(request, contact_id):
     contacts = contact_query_by_user(request.user.id)
 
-    for contact in contacts:
-        if contact.new_id == contact_id:
-            return render(request, "contatos/contact_details.html", {
-                "contact": contact,
-            })
-    else:
+    contact = get_contact_with_new_id(contact_id, contacts)
+
+    if contact is None:
         raise Http404("Contact not found")
+    else:
+        return render(request, "contatos/contact_details.html", {
+            "contact": contact,
+        })
 
 
 @login_required(redirect_field_name=None)
@@ -104,4 +113,30 @@ def new_contact(request):
     )
 
     messages.success(request, "Contato criado com sucesso!")
+    return redirect("contact_list")
+
+
+@login_required(redirect_field_name=None)
+def edit_contact(request, contact_id):
+    contacts = contact_query_by_user(request.user.id)
+
+    contact = get_contact_with_new_id(contact_id, contacts)
+    contact = get_object_or_404(Contact, id=contact.id)
+    if request.method != "POST":
+        form = ContactForm(instance=contact)
+        return render(request, "contatos/new_contact.html", {'form': form})
+
+    form = ContactForm(request.POST, request.FILES, instance=contact)
+
+    if not form.is_valid():
+        form = ContactForm(instance=contact)
+        messages.error(
+            request,
+            "Número de telefone inválido: Exemplo: (11) 99999-9999",
+        )
+        return render(request, "contatos/new_contact.html", {'form': form})
+
+    form.save()
+
+    messages.success(request, "Contato editado com sucesso!")
     return redirect("contact_list")
