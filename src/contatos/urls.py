@@ -15,4 +15,9 @@ urlpatterns = [
         views.edit_contact,
         name="new_contact",
         ),
+    path(
+        "contacts/<int:contact_id>/delete/",
+        views.delete_contact,
+        name="delete_contact",
+        ),
 ]
