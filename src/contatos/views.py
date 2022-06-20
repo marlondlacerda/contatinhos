@@ -26,7 +26,7 @@ def index(request):
     page = request.GET.get('page')
     contacts = paginator.get_page(page)
 
-    return render(request, "contatos/index.html", {
+    return render(request, "contatos/contact_list.html", {
         "contacts": contacts,
     })
 

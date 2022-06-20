@@ -30,7 +30,7 @@
     {% for contact in contacts %}
       <div class="contact-container mt-3">
         <div class="contact-info">
-          <a href="{% url 'list_contact' contact.new_id %}">
+          <a href="{% url 'contact_details' contact.new_id %}">
             <div class="contact-image-container ms-2">
               <img class="contact-image" src="{{ contact.get_image }}" alt="{{ contact.name }}">
             </div>

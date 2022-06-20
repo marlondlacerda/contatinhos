@@ -6,7 +6,7 @@ from django.core.validators import validate_email
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect("index")
+        return redirect("contact_list")
     else:
         if request.method != "POST":
             return render(request, "accounts/login.html")
@@ -26,7 +26,7 @@ def login(request):
 
         auth.login(request, user)
         messages.success(request, "Bem Vindo!")
-        return redirect("index")
+        return redirect("contact_list")
 
 
 def register(request):
@@ -90,4 +90,4 @@ def register(request):
 def logout(request):
     auth.logout(request)
     messages.success(request, "Você saiu com sucesso!")
-    return redirect("index")
+    return redirect("contact_list")
