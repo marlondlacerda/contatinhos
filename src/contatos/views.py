@@ -104,4 +104,4 @@ def new_contact(request):
     )
 
     messages.success(request, "Contato criado com sucesso!")
-    return redirect("index")
+    return redirect("contact_list")

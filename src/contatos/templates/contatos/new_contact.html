@@ -2,15 +2,110 @@
 
 {% block title %} Novo Contato | {% endblock %}
 
-  
   {% block content %}
-  <div>
-    <form action="{% url 'new_contact' %}" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div>
-        {{ form }}
+  <div class="content overflow-auto rounded-2">
+    <div class="content-header ">
+      <p class="my-contacts">
+        {% if 'new' in request.path %}
+          Novo Contato
+        {% else %}
+          Editar Contato
+        {% endif %}
+      </p>
+
+      <div class="contacts-container">
+        <div>
+          <form action="{% url 'new_contact' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                value="{{ request.POST.name }}"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="João"
+                required
+                >
+              <label for="name" class="floatingInput">Nome</label>
+            <div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                value="{{ request.POST.last_name }}"
+                class="form-control"
+                id="last_name"
+                name="last_name"
+                placeholder="da Silva"
+                >
+              <label for="last_name" class="floatingInput">Sobrenome</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="file"
+                value="{{ request.POST.image }}"
+                class="form-control"
+                id="image"
+                name="image"
+                placeholder="image"
+                >
+              <label for="image" class="floatingInput">Imagem</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                value="{{ request.POST.phone }}"
+                class="form-control"
+                id="phone"
+                name="phone"
+                placeholder="(00) 00000-0000"
+                required
+                >
+              <label for="phone" class="floatingInput">Telefone</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                value="{{ request.POST.email }}"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="example@example.com"
+                >
+              <label for="email" class="floatingInput">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea
+                type="text"
+                value="{{ request.POST.description }}"
+                class="form-control"
+                id="description"
+                name="description"
+                placeholder="Descrição"
+                cols="40"
+                rows="10"
+                maxlength="200"
+                ></textarea>
+              <label for="description" class="floatingInput">Descrição</label>
+            </div>
+            <div class="form-floating mb-3">
+              <select
+                class="form-control"
+                id="category"
+                name="category"
+                required
+                >
+                {% for category in form.category %}
+                  {{ category}}
+                {% endfor %}
+                </select>
+                <label for="category" class="floatingInput">Categoria</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
+    </div>
   </div>
   {% endblock %}
