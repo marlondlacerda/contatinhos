@@ -140,3 +140,15 @@ def edit_contact(request, contact_id):
 
     messages.success(request, "Contato editado com sucesso!")
     return redirect("contact_list")
+
+
+@login_required(redirect_field_name=None)
+def delete_contact(request, contact_id):
+    contacts = contact_query_by_user(request.user.id)
+
+    contact = get_contact_with_new_id(contact_id, contacts)
+    contact = get_object_or_404(Contact, id=contact.id)
+    contact.delete()
+
+    messages.success(request, "Contato excluído com sucesso!")
+    return redirect("contact_list")
