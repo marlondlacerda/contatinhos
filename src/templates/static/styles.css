@@ -130,6 +130,30 @@
   opacity: 0.7;
 }
 
+.header-title {
+  font-family: Nunito;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0em;
+  line-height: 33px;
+
+  margin-left: 24px;
+  margin-top: 20px;
+  text-align: left;
+  width: 200px;
+}
+
+.container-form {
+  padding-left: 30px;
+  padding-top: 5px;
+}
+
+.content-form {
+  border: 3px solid rgb(33,37,41);
+  height: 100%;
+  width: 390px;
+}
+
 @media (min-width: 768px) {
 
   .content::-webkit-scrollbar {

@@ -3,9 +3,9 @@
 {% block title %} Novo Contato | {% endblock %}
 
   {% block content %}
-  <div class="content overflow-auto rounded-2">
-    <div class="content-header ">
-      <p class="my-contacts">
+  <div class="content-form overflow-auto rounded-2">
+    <div class="content-header">
+      <p class="header-title">
         {% if 'new' in request.path %}
           Novo Contato
         {% else %}
@@ -13,7 +13,7 @@
         {% endif %}
       </p>
 
-      <div class="contacts-container">
+      <div class="container-form">
         <div>
           <form action="{% url 'new_contact' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -28,7 +28,7 @@
                 required
                 >
               <label for="name" class="floatingInput">Nome</label>
-            <div>
+            </div>
             <div class="form-floating mb-3">
               <input
                 type="text"
@@ -102,7 +102,9 @@
                 <label for="category" class="floatingInput">Categoria</label>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <div class="d-grid gap-2 mb-2">
+              <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+            </div>
           </form>
         </div>
       </div>
