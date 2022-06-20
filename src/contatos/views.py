@@ -80,11 +80,15 @@ def new_contact(request):
     if request.method != "POST":
         form = ContactForm()
         return render(request, "contatos/new_contact.html", {'form': form})
-    print(request.POST)
+
     form = ContactForm(request.POST, request.FILES)
 
     if not form.is_valid():
         form = ContactForm()
+        messages.error(
+            request,
+            "Número de telefone inválido: Exemplo: (11) 99999-9999",
+        )
         return render(request, "contatos/new_contact.html", {'form': form})
 
     form.save()
@@ -94,4 +98,5 @@ def new_contact(request):
         contact=Contact.objects.get(id=form.instance.id)
     )
 
+    messages.success(request, "Contato criado com sucesso!")
     return redirect("index")

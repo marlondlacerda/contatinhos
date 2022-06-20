@@ -140,9 +140,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Messages
 MESSAGE_TAGS = {
-    messages.DEBUG: "alert-info",
-    messages.ERROR: "alert-danger",
-    messages.INFO: "alert-info",
-    messages.SUCCESS: "alert-success",
-    messages.WARNING: "alert-warning",
+    messages.DEBUG: "info",
+    messages.ERROR: "error",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
 }
