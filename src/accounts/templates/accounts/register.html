@@ -14,89 +14,119 @@
           Cadastre-se para continuar.
         </h4>
         <div class="form-sign-inputs inputs-register">
-          <form method="POST" action="{% url 'register' %}">
+          <form method="POST" action="{% url 'register' %}"  id="form-acount">
             {% csrf_token %}
 
             <div class="form-floating mb-3">
               <input
               type="text"
+              value="{{ request.POST.username }}" }}"
+              class="form-control"
+              id="id_username"
+              name="username"
+              placeholder="username"
+              maxlength="150"
+              >
+              <label for="id_username" class="floatingInput">Username</label>
+              {% if message.username %}
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.username.0.message }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-floating mb-3">
+              <input
+              type="text"
               value="{{ request.POST.first_name }}" }}"
               class="form-control"
-              id="first_name"
+              id="id_first_name"
               name="first_name"
               placeholder="João"
-              required
               >
-              <label for="first_name" class="floatingInput">Nome</label>
+              <label for="id_first_name" class="floatingInput">Nome</label>
+              {% if message.first_name %}
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.first_name.0.message }}
+                  </div>
+              {% endif %}
             </div>
-
             <div class="form-floating mb-3">
               <input
               type="text"
               value="{{ request.POST.last_name }}" }}"
               class="form-control"
-              id="last_name"
+              id="id_last_name"
               name="last_name"
               placeholder="da Silva"
-              required
               >
-              <label for="last_name" class="floatingInput">Sobrenome</label>
+              <label for="id_last_name" class="floatingInput">Sobrenome</label>
+              {% if message.last_name %}
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.last_name.0.message }}
+                </div>
+              {% endif %}
             </div>
-
-
             <div class="form-floating mb-3">
               <input
               type="email"
               value="{{ request.POST.email }}" }}"
               class="form-control"
-              id="email"
+              id="id_email"
               name="email"
               placeholder="name@example.com"
-              required
               >
-              <label for="email" class="floatingInput">Email Adress</label>
+              <label for="id_email" class="floatingInput">Email Adress</label>
+              {% if message.email %}
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.email.0.message }}
+                </div>
+              {% endif %}
             </div>
-        
-            <div class="form-floating mb-3">
-              <input
-              type="text"
-              value="{{ request.POST.username }}" }}"
-              class="form-control"
-              id="username"
-              name="username"
-              placeholder="username"
-              required
-              >
-              <label for="username" class="floatingInput">Username</label>
-            </div>
-        
+
             <div class="form-floating mb-3">
               <input
               type="password"
               class="form-control"
-              id="password"
-              name="password"
-              placeholder="Senha (+ de 6 caracteres)"
-              required
+              id="id_password1"
+              name="password1"
+              autocomplete="new-password"
+              placeholder="Senha (+ de 8 caracteres)"
               >
-              <label for="password" class="floatingInput">Senha (+ de 6 caracteres)</label>
+              <label for="id_password1" class="floatingInput">Senha (+ de 8 caracteres)</label>
+              {% if message.password1 %}
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.password1.0.message }}
+                </div>
+              {% endif %}
             </div>
-        
             <div class="form-floating mb-3">
               <input
               type="password"
               class="form-control"
-              id="re_password"
-              name="re_password"
-              placeholder="Senha (+ de 6 caracteres)"
-              required
+              id="id_password2"
+              name="password2"
+              placeholder="Senha (+ de 8 caracteres)"
               >
-              <label for="re_password" class="floatingInput">Confirmar Senha</label>
+              <label for="id_password2" class="floatingInput">Confirmar Senha</label>
+              {% if message.password2 %}
+                {% for message in message.password2 %}
+                  <div class="invalid-feedback ms-2" style="display: block;">
+                    {{ message.message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
             </div>
             <div class="form-sign-button-area">
-              <button type="submit" class="form-sign-button register-main mb-4">Cadastre-se</button>
-              <p>Já se cadastrou no Contatinhos? <a href="{% url 'login' %}">Entre</a></p>
-            </div>
+              <button
+                type="submit"
+                class="form-sign-button register-main mb-4 g-recaptcha"
+                data-sitekey={{ site_key }}
+                data-callback="onSubmit"
+                >
+                Cadastre-se
+              </button>
+                <p>Já se cadastrou no Contatinhos? <a href="{% url 'login' %}">Entre</a></p>
+              </div>
           </form>
         </div>
     </div>
