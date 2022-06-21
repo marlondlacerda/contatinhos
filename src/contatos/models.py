@@ -51,6 +51,13 @@ class Contact(models.Model):
         else:
             return '/media/pictures/default_image.png'
 
+    def get_date(self):
+        return self.created_at.strftime("%d/%m/%Y")
+
+    def get_phone(self):
+        phone = str(self.phone.as_e164).replace("+", "")
+        return phone
+
 
 class Contacts_User(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
