@@ -2,88 +2,105 @@
 
 {% block title %} Cadastrar | {% endblock %}
 
-{% block content %}
-  <h1 class="mt-3 display-4">Cadastro</h1>
-  <form method="POST" action="{% url 'register' %}">
-      {% csrf_token %}
-    <div class="form-floating mb-3">
-      <input
-      type="text"
-      value="{{ request.POST.first_name }}" }}"
-      class="form-control"
-      id="first_name"
-      name="first_name"
-      placeholder="João"
-      required
-      >
-      <label for="first_name" class="floatingInput">Nome</label>
+{% block accountform %}
+{% if not user.is_authenticated %}
+<div class="form-sign-container register-container">
+  <div class="form-sign-subcontainer-left">
+    <img class="not-found-img-svg" src="/media/icons/register.svg" width="100%">
+  </div>
+  <div class="form-sign-subcontainer-right">
+    <div class="form-sign-inputs-container">
+        <h4>
+          Cadastre-se para continuar.
+        </h4>
+        <div class="form-sign-inputs inputs-register">
+          <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <div class="form-floating mb-3">
+              <input
+              type="text"
+              value="{{ request.POST.first_name }}" }}"
+              class="form-control"
+              id="first_name"
+              name="first_name"
+              placeholder="João"
+              required
+              >
+              <label for="first_name" class="floatingInput">Nome</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input
+              type="text"
+              value="{{ request.POST.last_name }}" }}"
+              class="form-control"
+              id="last_name"
+              name="last_name"
+              placeholder="da Silva"
+              required
+              >
+              <label for="last_name" class="floatingInput">Sobrenome</label>
+            </div>
+
+
+            <div class="form-floating mb-3">
+              <input
+              type="email"
+              value="{{ request.POST.email }}" }}"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="name@example.com"
+              required
+              >
+              <label for="email" class="floatingInput">Email Adress</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input
+              type="text"
+              value="{{ request.POST.username }}" }}"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="username"
+              required
+              >
+              <label for="username" class="floatingInput">Username</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Senha (+ de 6 caracteres)"
+              required
+              >
+              <label for="password" class="floatingInput">Senha (+ de 6 caracteres)</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+              <input
+              type="password"
+              class="form-control"
+              id="re_password"
+              name="re_password"
+              placeholder="Senha (+ de 6 caracteres)"
+              required
+              >
+              <label for="re_password" class="floatingInput">Confirmar Senha</label>
+            </div>
+            <div class="form-sign-button-area">
+              <button type="submit" class="form-sign-button register-main mb-4">Cadastre-se</button>
+              <p>Já se cadastrou no Contatinhos? <a href="{% url 'login' %}">Entre</a></p>
+            </div>
+          </form>
+        </div>
     </div>
-
-    <div class="form-floating mb-3">
-      <input
-      type="text"
-      value="{{ request.POST.last_name }}" }}"
-      class="form-control"
-      id="last_name"
-      name="last_name"
-      placeholder="da Silva"
-      required
-      >
-      <label for="last_name" class="floatingInput">Sobrenome</label>
-    </div>
-
-    <div class="form-floating mb-3">
-      <input
-      type="email"
-      value="{{ request.POST.email }}" }}"
-      class="form-control"
-      id="email"
-      name="email"
-      placeholder="name@example.com"
-      required
-      >
-      <label for="email" class="floatingInput">Email Adress</label>
-    </div>
-
-    <div class="form-floating mb-3">
-      <input
-      type="text"
-      value="{{ request.POST.username }}" }}"
-      class="form-control"
-      id="username"
-      name="username"
-      placeholder="username"
-      required
-      >
-      <label for="username" class="floatingInput">Username</label>
-    </div>
-
-    <div class="form-floating mb-3">
-      <input
-      type="password"
-      class="form-control"
-      id="password"
-      name="password"
-      placeholder="Senha (+ de 6 caracteres)"
-      required
-      >
-      <label for="password" class="floatingInput">Senha (+ de 6 caracteres)</label>
-    </div>
-
-    <div class="form-floating mb-3">
-      <input
-      type="password"
-      class="form-control"
-      id="re_password"
-      name="re_password"
-      placeholder="Senha (+ de 6 caracteres)"
-      required
-      >
-      <label for="re_password" class="floatingInput">Confirmar Senha</label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Cadastre-se</button>
-
-  </form>
-
+  </div>
+</div>
+  {% endif %}
 {% endblock %}
