@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from django.contrib.auth.models import User
-from .form import UserForm, UserLoginForm
+from .form import RegistrationForm, UserLoginForm
 from .decorators import check_recaptcha
 
 
@@ -37,23 +36,28 @@ def login(request):
             })
 
 
+@check_recaptcha
 def register(request):
     if request.method != "POST":
-        return render(request, "accounts/register.html")
+        form = RegistrationForm()
+        return render(request, "accounts/register.html", {
+                "form": form,
+                'site_key': settings.RECAPTCHA_PUBLIC_KEY
+            })
 
-    form = UserForm(request.POST)
+    form = RegistrationForm(request.POST)
+
     if not form.is_valid():
-        messages.error(request, "Nome de usuário ou e-mail inválidos.")
-        return render(request, "accounts/register.html")
+        erro_display = form.errors.as_data()
 
-    user = User.objects.create_user(
-        first_name=form.cleaned_data.get("first_name"),
-        last_name=form.cleaned_data.get("last_name"),
-        username=form.cleaned_data.get("username"),
-        password=form.cleaned_data.get("password"),
-        email=form.cleaned_data.get("email"),
-    )
-    user.save()
+        form = RegistrationForm()
+        return render(request, "accounts/register.html", {
+                "form": form,
+                'site_key': settings.RECAPTCHA_PUBLIC_KEY,
+                'message': erro_display
+            })
+
+    form.save()
 
     messages.success(request, "Usuário criado com sucesso!")
     return redirect("login")
