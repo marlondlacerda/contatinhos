@@ -27,6 +27,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
+            messages.success(request, "Bem vindo de volta!")
             return redirect("contact_list")
         else:
             messages.error(request, "Usuário ou senha inválidos")
