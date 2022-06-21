@@ -9,15 +9,19 @@
 </head>
 
 <body>
-  {% include 'partials/_nav.html' %}
+  {% if not 'login' in request.path and not 'register' in request.path %}
+    {% include 'partials/_nav.html' %}
+  {% endif %}
 
   {% block notfound %}
+  {% endblock %}
+
+  {% block accountform %}
   {% endblock %}
   <!-- Page Content -->
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-5 mt-3">
-
         {% block content %}
         {% endblock %}
       </div>
