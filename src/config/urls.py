@@ -18,10 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path("", include("accounts.urls")),
     path("dashboard/", include("contatos.urls")),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = "contatos.views.handle_not_found"

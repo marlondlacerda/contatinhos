@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block notfound %}
+<div class="not-found-container">
+  <div class="not-found-content">
+    <div class="not-found-img">
+      <img class="not-found-img-svg" src="/media/icons/404_blue.svg">
+    </div>
+    <div class="not-found-info">
+      <div class="not-found-info-text">
+        <h1 class="not-found-title">Oh Noes!</h1>
+        <a class="not-found-button" href="{% url 'contact_list' %}">
+          Back To Home
+        </a>
+        <p class="not-found-text">
+          Essa página não existe ou foi removida.
+          <br>
+          Nós sugerimos que você volte para a página inicial.
+        </p>
+      </div>
+      <div class="not-found-info-footer">
+        <img class="not-found-img-footer" src="/media/icons/not-found-404.svg">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

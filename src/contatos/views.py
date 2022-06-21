@@ -153,3 +153,7 @@ def delete_contact(request, contact_id):
 
     messages.success(request, "Contato excluído com sucesso!")
     return redirect("contact_list")
+
+
+def handle_not_found(request, exception):
+    return render(request, "contatos/not-found.html", status=404)
