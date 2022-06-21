@@ -2,8 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 template_agenda/
-media/
-
+src/media/pictures/
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
