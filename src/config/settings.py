@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-5$e6_c$*p2v&iftd8@b81_((lbd_a6qtpayq-3js143$^cq=w(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -146,3 +146,6 @@ MESSAGE_TAGS = {
     messages.SUCCESS: "success",
     messages.WARNING: "warning",
 }
+
+RECAPTCHA_PUBLIC_KEY = "6Ld3KYwgAAAAANzZ32aTVRSZI8ECGPHcX6e7UdZP"
+RECAPTCHA_PRIVATE_KEY = "6Ld3KYwgAAAAACuwIfKFexFDh0B0KZLhUaCoUrle"

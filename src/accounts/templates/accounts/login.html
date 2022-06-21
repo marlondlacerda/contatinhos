@@ -23,12 +23,11 @@
           Bem vindo de volta! Por favor, faça seu login.
         </h4>
         <div class="form-sign-inputs">
-          <form method="POST" action="{% url 'login' %}">
+          <form method="POST" action="{% url 'login' %}" id="form-acount">
             {% csrf_token %}
             <div class="form-floating mb-3">
               <input
               type="text"
-              value="{{ request.POST.username }}" }}"
               class="form-control"
               id="username"
               name="username"
@@ -48,7 +47,14 @@
               >
               <label for="password" class="floatingInput">Senha</label>
             </div>
-            <button type="submit" class="form-sign-button login">Entrar</button>
+
+            <button
+              class="form-sign-button login g-recaptcha g-recaptcha"
+              data-sitekey={{ site_key }}
+              data-callback="onSubmit"
+              >
+              Entrar
+            </button>
             <a href="{% url 'register' %}">
               <button type="button"  class="form-sign-button register ms-3">Cadastrar</button>
             </a>
