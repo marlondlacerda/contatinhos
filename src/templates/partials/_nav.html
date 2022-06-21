@@ -38,22 +38,6 @@
               Sair
             </a>
           {% endif %}
-
-
-        {% if 'login' in request.path or 'register' in request.path or 'index_login' in request.resolver_match.view_name %}
-        </ul>
-
-            <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'login' %}">
-              Login
-            </a>
-
-          <div class="vr d-none d-lg-flex mx-lg-3 text-white"></div>
-
-            <a class="btn btn-outline-secondary ms-1 mt-1" href="{% url 'register' %}">
-              Cadastrar
-            </a>
-
-        {% endif %}
     </div>
   </div>
 </nav>
