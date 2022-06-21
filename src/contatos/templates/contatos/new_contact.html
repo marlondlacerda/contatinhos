@@ -5,14 +5,19 @@
   {% block content %}
   <div class="content-form overflow-auto rounded-2">
     <div class="content-header">
-      <p class="header-title">
-        {% if 'new' in request.path %}
+      <div class="test">
+        <p class="header-title">
+          {% if 'new' in request.path %}
           Novo Contato
-        {% else %}
+          {% else %}
           Editar Contato
-        {% endif %}
-      </p>
-
+          {% endif %}
+        </p>
+      <a class="btn btn-danger btn-sm" href="{% url 'contact_list' %}">
+        <i class="fas fa-arrow-left"></i>
+        Cancelar
+      </a>
+      </div>
       <div class="container-form">
         <div>
             <form action="{{ request.path }}" method="POST" enctype="multipart/form-data">
