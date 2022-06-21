@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  {% if not 'login' in request.path and not 'register' in request.path %}
+  {% if 'search' in request.path or 'dashboard' in request.path %}
     {% include 'partials/_nav.html' %}
   {% endif %}
 
