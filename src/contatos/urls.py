@@ -13,7 +13,7 @@ urlpatterns = [
     path(
         "contacts/<int:contact_id>/edit/",
         views.edit_contact,
-        name="new_contact",
+        name="edit_contact",
         ),
     path(
         "contacts/<int:contact_id>/delete/",

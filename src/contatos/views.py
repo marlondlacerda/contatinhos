@@ -63,7 +63,7 @@ def search(request):
             messages.ERROR,
             "Por favor, digite um termo de busca"
         )
-        return redirect("index")
+        return redirect("contact_list")
 
     an_object = None
     an_object_string = str(an_object)
@@ -123,6 +123,7 @@ def edit_contact(request, contact_id):
     contact = get_contact_with_new_id(contact_id, contacts)
     contact = get_object_or_404(Contact, id=contact.id)
     if request.method != "POST":
+        print(request.POST)
         form = ContactForm(instance=contact)
         return render(request, "contatos/new_contact.html", {'form': form})
 
