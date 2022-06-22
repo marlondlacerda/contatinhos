@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
-from dotenv import dotenv_values
 from django.contrib import messages
 
+# from dotenv import dotenv_values 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,16 +79,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-dotenv = dotenv_values(str(BASE_DIR.parent / ".env"))
 
 DATABASES = {
     "default": {
-        "ENGINE": f"django.db.backends.{dotenv['DB_TYPE']}",
-        "USER": dotenv['DB_USER'],
-        "PASSWORD": dotenv['DB_PASS'],
-        "HOST": dotenv["DB_HOST"],
-        "PORT": dotenv["DB_PORT"],
-        "NAME": dotenv["DB_NAME"],
+        "ENGINE": f"django.db.backends.{os.getenv('DB_ENGINE')}",
+        "USER": os.getenv('DB_USER'),
+        "PASSWORD": os.getenv('DB_PASS'),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
+        "NAME": os.getenv("DB_NAME"),
     }
 }
 
@@ -147,5 +147,5 @@ MESSAGE_TAGS = {
     messages.WARNING: "warning",
 }
 
-RECAPTCHA_PUBLIC_KEY = "6Ld3KYwgAAAAANzZ32aTVRSZI8ECGPHcX6e7UdZP"
-RECAPTCHA_PRIVATE_KEY = "6Ld3KYwgAAAAACuwIfKFexFDh0B0KZLhUaCoUrle"
+RECAPTCHA_PUBLIC_KEY = "6Le9kIwgAAAAAGNTaeYJ6PS1e4ZKf1iVdScsWOWP"
+RECAPTCHA_PRIVATE_KEY = "6Le9kIwgAAAAAELSoXFNffpqnhOunW0qM6Mtj63G"
