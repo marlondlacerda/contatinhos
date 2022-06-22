@@ -49,7 +49,7 @@ class Contact(models.Model):
         if self.image:
             return self.image.url
         else:
-            return '/media/pictures/default_image.png'
+            return '/media/assets/default_image.png'
 
     def get_date(self):
         return self.created_at.strftime("%d/%m/%Y")
