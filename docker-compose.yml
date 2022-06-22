@@ -3,6 +3,7 @@ services:
   contatinhos:
     build: .
     image: app:contatinhos
+    command: make run
     container_name: app_contatinhos
     depends_on:
       - db
@@ -17,6 +18,7 @@ services:
       - DB_HOST=db
       - DB_PORT=3306
       - DB_NAME=agenda
+      - SECRET_KEY="django-insecure-5$$e6c$$*p2v&iftd8@b81((lbd_a6qtpayq-3js143$$^cq=w("
   db:
     image: mysql:8.0.21
     container_name: db_mysql
