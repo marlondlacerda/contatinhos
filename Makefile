@@ -6,7 +6,7 @@ install:
 
 #  <--------- Start Server ---------->
 run:
-	bash -c "cd app && python manage.py runserver"
+	bash -c "cd app && python manage.py runserver 0.0.0.0:8000"
 
 # <--------- Create New App ---------->
 newapp:
