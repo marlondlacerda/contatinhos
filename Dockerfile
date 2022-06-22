@@ -17,5 +17,3 @@ RUN apk update \
 RUN pip install -r requirements.txt
 
 COPY . .
-
-CMD ["make", "run"]
