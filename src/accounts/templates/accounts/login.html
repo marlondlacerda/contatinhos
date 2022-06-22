@@ -32,9 +32,12 @@
               id="username"
               name="username"
               placeholder="username"
-              required
               >
               <label for="username" class="floatingInput">Username</label>
+              <div class="invalid-feedback ms-2" style="display: block;">
+                {{ message.invalid_login }}
+                {{ message.username.0.messages.0 }}
+              </div>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -43,9 +46,12 @@
               id="password"
               name="password"
               placeholder="Senha (+ de 6 caracteres)"
-              required
               >
               <label for="password" class="floatingInput">Senha</label>
+                <div class="invalid-feedback ms-2" style="display: block;">
+                  {{ message.invalid_login }}
+                  {{ message.password.0.messages.0 }}
+                </div>
             </div>
 
             <button

@@ -81,12 +81,10 @@ class UserLoginForm(forms.Form):
     username = forms.CharField(
         max_length=100,
         min_length=3,
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
         label='username'
     )
     password = forms.CharField(
         max_length=100,
-        min_length=6,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=8,
         label='password'
     )

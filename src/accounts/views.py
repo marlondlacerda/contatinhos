@@ -19,21 +19,35 @@ def login(request):
 
         form = UserLoginForm(request.POST)
 
-        user = auth.authenticate(
-            username=request.POST['username'],
-            password=request.POST['password']
-        )
+        if not form.is_valid():
+            erro_display = form.errors.as_data()
 
-        if user is not None:
-            auth.login(request, user)
-            messages.success(request, "Bem vindo de volta!")
-            return redirect("contact_list")
-        else:
-            messages.error(request, "Usuário ou senha inválidos")
             return render(request, "accounts/login.html", {
                 "form": form,
-                'site_key': settings.RECAPTCHA_PUBLIC_KEY
+                'site_key': settings.RECAPTCHA_PUBLIC_KEY,
+                'message': erro_display
             })
+
+        else:
+            user = auth.authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+
+            if user is not None:
+                auth.login(request, user)
+                messages.success(request, "Você foi logado com sucesso!")
+                return redirect("contact_list")
+            else:
+                message = {
+                    'invalid_login': 'Usuário ou senha inválidos.'
+                }
+                messages.error(request, "Usuário ou senha inválidos.")
+                return render(request, "accounts/login.html", {
+                    "form": form,
+                    'site_key': settings.RECAPTCHA_PUBLIC_KEY,
+                    'message': message
+                })
 
 
 @check_recaptcha
