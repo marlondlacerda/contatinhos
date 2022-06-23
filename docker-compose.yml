@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  contatinhos:
+    build: .
+    image: app:contatinhos
+    command: make run
+    container_name: app_contatinhos
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      - RECAPTCHA_PRIVATE_KEY={insersenhaaqui}
+      - RECAPTCHA_PUBLIC_KEY={inserirsenhaaqui}}
+      - DB_ENGINE=mysql
+      - DB_USER=
+      - DB_PASS=
+      - DB_HOST=
+      - DB_PORT=
+      - DB_NAME=
+      - SECRET_KEY=
+  db:
+    image: mysql:8.0.21
+    container_name: db_mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    restart: 'always'
